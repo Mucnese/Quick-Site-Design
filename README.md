@@ -136,6 +136,10 @@ quick-site-design/
     └── xml-stub.js
 ```
 
+`index.html` wird mit `python3 build.py` aus den vier Dateien in `src/`
+zusammengesetzt. Die Tests in `test/` laufen mit `node` und brauchen keinen
+Browser. Einzelheiten stehen in `PROJEKT.md`.
+
 ---
 
 ## Selbst betreiben
@@ -153,48 +157,9 @@ Alle drei sind mit der GPLv3 verträglich. Ohne Internetverbindung startet die
 Anwendung nicht; für den Offline-Betrieb müssen die Bibliotheken mit
 ausgeliefert und lokal eingebunden werden.
 
-### Mit GitHub Pages
-
-1. Repository `quick-site-design` anlegen, Sichtbarkeit **Public**
-2. Inhalt dieses Ordners hochladen, einschließlich `demo/` — die beiden
-   unkomprimierten Demo-Dateien braucht der Demo-Link, ein ZIP kann der Browser
-   nicht entpacken
-3. Settings → Pages → Source auf `Deploy from a branch`, Branch `main`, Ordner `/ (root)`
-4. Nach ein bis zwei Minuten ist die Seite unter
-   `https://Mucnese.github.io/quick-site-design/` erreichbar
-
-Heißt das Repository anders, ändert sich der letzte Teil der Adresse
-entsprechend. Dann bitte auch den Verweis oben im README anpassen.
-
-### Auf eigenem Webspace
-
-`index.html` in das Web-Verzeichnis legen. Mehr ist nicht nötig.
-
----
-
-## Entwicklung
-
-Die ausgelieferte Datei wird aus vier Quelldateien zusammengesetzt:
-
-```
-src/shell_head.html   HTML-Gerüst und CSS
-src/app.js            Szene, Gelände, Bausteine, Geometrie
-src/ui.js             Bedienoberfläche
-src/boot.js           Startsequenz und Renderschleife
-```
-
-Bauen mit `python3 build.py`. Getestet wird gegen selbstgebaute Stubs, ein
-Browser ist dafür nicht nötig:
-
-```bash
-node test/test.js            # Kernlogik
-node test/test-ui.js         # Oberfläche im gemeinsamen Scope
-node test/validate-html.js   # fertige Datei
-```
-
-Alle drei müssen grün sein, bevor ausgeliefert wird. Zusätzlich prüft
-`node test/demo-check.js demo/demo_lod2.gml` die Beispieldaten gegen die echte
-Verarbeitungskette. Details zu den Festlegungen im Code stehen in `PROJEKT.md`.
+Zum Betrieb auf eigenem Webspace genügt es, `index.html` in das
+Web-Verzeichnis zu legen. Soll auch der Demo-Link funktionieren, muss der
+Ordner `demo/` danebenliegen.
 
 ---
 

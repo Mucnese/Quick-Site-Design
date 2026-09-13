@@ -137,6 +137,10 @@ quick-site-design/
     └── xml-stub.js
 ```
 
+`index.html` is assembled from the four files in `src/` with
+`python3 build.py`. The tests in `test/` run under `node` and need no browser.
+Details are in `PROJEKT.md` (German).
+
 ---
 
 ## Running it yourself
@@ -153,49 +157,8 @@ All three are compatible with the GPLv3. Without an internet connection the
 application will not start; for offline use the libraries have to be shipped
 alongside and referenced locally.
 
-### With GitHub Pages
-
-1. Create a repository named `quick-site-design`, visibility **Public**
-2. Upload the contents of this folder, including `demo/` — the demo link needs
-   the two uncompressed files, a browser cannot unpack a ZIP
-3. Settings → Pages → Source: `Deploy from a branch`, branch `main`, folder
-   `/ (root)`
-4. After a minute or two the page is live at
-   `https://Mucnese.github.io/quick-site-design/`
-
-If you name the repository differently, the last part of the address changes
-accordingly — remember to update the link at the top of this file.
-
-### On your own web space
-
-Put `index.html` in the web directory. That is all.
-
----
-
-## Development
-
-The delivered file is assembled from four source files:
-
-```
-src/shell_head.html   HTML scaffold and CSS
-src/app.js            scene, terrain, site elements, geometry
-src/ui.js             user interface
-src/boot.js           start-up sequence and render loop
-```
-
-Build with `python3 build.py`. Tests run against purpose-built stubs, so no
-browser is needed:
-
-```bash
-node test/test.js            # core logic
-node test/test-ui.js         # interface in the shared scope
-node test/validate-html.js   # the assembled file
-```
-
-All three must pass before shipping. In addition,
-`node test/demo-check.js demo/demo_lod2.gml` verifies the sample data against
-the real processing chain. The conventions that the code relies on are
-documented in `PROJEKT.md` (German).
+To run it on your own web space, put `index.html` in the web directory. If the
+demo link should work too, the `demo/` folder has to sit next to it.
 
 ---
 
