@@ -1,6 +1,6 @@
-# Quick-Site-Design
-
 ![Quick-Site-Design](docs/header.png)
+
+# Quick-Site-Design
 
 *[English version](README.en.md)*
 
@@ -103,13 +103,43 @@ schematisch.
 
 ## Datenquellen
 
-Geländemodelle und Gebäudemodelle bekommst du kostenfrei bei den
-Landesvermessungsämtern. Die Portale unterscheiden sich je Bundesland; such
-nach „DGM1" oder „LoD2" zusammen mit dem Landesnamen. Die meisten Länder geben
-die Daten unter der Datenlizenz Deutschland heraus.
+Alle 16 Bundesländer stellen das DGM1 kostenfrei als Open Data bereit. Die
+Portale unterscheiden sich allerdings deutlich — in Format, Kachelung, Zugang
+und Lizenz.
 
-Das Programm erwartet GeoTIFF mit Höhenwerten als Float und eine Georeferenz im
-Header. Für CityGML reicht die übliche LOD2-Ausgabe der Länder.
+| Land | Stelle | Portal | Lizenz |
+|---|---|---|---|
+| Baden-Württemberg | LGL-BW | [opengeodata.lgl-bw.de](https://opengeodata.lgl-bw.de/) | dl-de/by-2-0 |
+| Bayern | Bayer. Vermessungsverwaltung | [geodaten.bayern.de](https://geodaten.bayern.de/opengeodata/OpenDataDetail.html?pn=dgm1) | cc-by/4.0 |
+| Berlin | — | in den Brandenburg-Daten enthalten | — |
+| Brandenburg | LGB | [geoportal.brandenburg.de](https://geoportal.brandenburg.de/) | dl-de/by-2-0 |
+| Bremen | LGV Bremen | [geoportal.bremen.de](https://geoportal.bremen.de/geoportal/) | cc-by/4.0 |
+| Hamburg | LGV Hamburg | [metaver.de](https://metaver.de/trefferanzeige?docuuid=A39B4E86-15E2-4BF7-BA82-66F9913D5640) | dl-de/by-2-0 |
+| Hessen | HVBG | [hvbg.hessen.de](https://hvbg.hessen.de/landesvermessung/geotopographie/3d-daten/digitale-gelaendemodelle) | dl-de/by-2-0 |
+| Mecklenburg-Vorpommern | LAiV MV | [laiv.geodaten-mv.de](https://laiv.geodaten-mv.de/afgvk/Geotopographie/Download?produkt=DGM1) | dl-de/by-2-0 |
+| Niedersachsen | LGLN | [opengeodata.lgln.niedersachsen.de](https://opengeodata.lgln.niedersachsen.de/) | cc-by/4.0 |
+| Nordrhein-Westfalen | Geobasis NRW | [opengeodata.nrw.de](https://www.opengeodata.nrw.de/produkte/geobasis/hm/dgm1_tiff/) | dl-de/by-2-0 |
+| Rheinland-Pfalz | LVermGeo RP | [geoshop.rlp.de](https://geoshop.rlp.de/opendata-dgm1.html) | dl-de/by-2-0 |
+| Saarland | LVGL-SL | [saarland.de/lvgl](https://www.saarland.de/lvgl/DE/themen-aufgaben/themen/geotopographie/digitalegelaendemodelle/digitalegelaendemodelle) | dl-de/by-2-0 |
+| Sachsen | GeoSN | [geodaten.sachsen.de](https://www.geodaten.sachsen.de/downloadbereich-digitale-hoehenmodelle-4851.html) | dl-de/by-2-0 |
+| Sachsen-Anhalt | LVermGeo ST | [lvermgeo.sachsen-anhalt.de](https://www.lvermgeo.sachsen-anhalt.de/de/gdp-dgm-dom-lsa.html) | dl-de/by-2-0 |
+| Schleswig-Holstein | LVermGeo SH | [opendata.schleswig-holstein.de](https://opendata.schleswig-holstein.de/dataset/digitales-gelandemodell-1-dgm1) | cc-by/4.0 |
+| Thüringen | TLBG | [tlbg.thueringen.de](https://tlbg.thueringen.de/geobasisdaten/3d-informationen/digitale-gelaendemodelle) | dl-de/by-2-0 |
+
+**Format.** Quick-Site-Design erwartet GeoTIFF mit Höhenwerten als Gleitkomma
+und einer Georeferenz im Header. Die meisten Länder liefern genau das,
+Niedersachsen als Cloud-Optimized GeoTIFF. Bremen, Schleswig-Holstein und Teile
+Thüringens geben XYZ-ASCII aus — diese Daten müssen vor dem Laden umgewandelt
+werden, etwa mit GDAL.
+
+**Kachelung.** Meist 1 × 1 km, teilweise 2 × 2 km. Mehrere Kacheln lassen sich
+gemeinsam auswählen und werden beim Laden verschmolzen.
+
+**Gebäudemodelle.** Die LoD2-Daten liegen überwiegend in denselben Portalen,
+teils unter abweichenden Lizenzen. Such dort nach „LoD2" oder „3D-Gebäudemodell".
+
+**Lizenzpflicht.** Beide Lizenzen verlangen eine Quellenangabe. Den genauen
+Wortlaut findest du in den Metadaten des jeweiligen Landes.
 
 ---
 

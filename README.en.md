@@ -1,6 +1,6 @@
-# Quick-Site-Design
-
 ![Quick-Site-Design](docs/header.png)
+
+# Quick-Site-Design
 
 *[Deutsche Fassung](README.md)*
 
@@ -101,15 +101,46 @@ schematic.
 
 ## Where to get the data
 
-In Germany, terrain and building models are available free of charge from the
-state surveying authorities. The portals differ by federal state; search for
-"DGM1" or "LoD2" together with the state name. Most states publish the data
-under the Datenlizenz Deutschland.
+All 16 German federal states publish their 1 m terrain model (DGM1) as open
+data, free of charge. The portals differ considerably in format, tiling, access
+and licence.
 
-The application expects GeoTIFF with elevation values as float and a
-georeference in the header. For buildings, the usual LOD2 output of the German
-states works as is. Data from other countries works too, as long as the GeoTIFF
-carries a projected coordinate system and the CityGML uses the same one.
+| State | Authority | Portal | Licence |
+|---|---|---|---|
+| Baden-Württemberg | LGL-BW | [opengeodata.lgl-bw.de](https://opengeodata.lgl-bw.de/) | dl-de/by-2-0 |
+| Bavaria | Bayer. Vermessungsverwaltung | [geodaten.bayern.de](https://geodaten.bayern.de/opengeodata/OpenDataDetail.html?pn=dgm1) | cc-by/4.0 |
+| Berlin | — | included in the Brandenburg data | — |
+| Brandenburg | LGB | [geoportal.brandenburg.de](https://geoportal.brandenburg.de/) | dl-de/by-2-0 |
+| Bremen | LGV Bremen | [geoportal.bremen.de](https://geoportal.bremen.de/geoportal/) | cc-by/4.0 |
+| Hamburg | LGV Hamburg | [metaver.de](https://metaver.de/trefferanzeige?docuuid=A39B4E86-15E2-4BF7-BA82-66F9913D5640) | dl-de/by-2-0 |
+| Hesse | HVBG | [hvbg.hessen.de](https://hvbg.hessen.de/landesvermessung/geotopographie/3d-daten/digitale-gelaendemodelle) | dl-de/by-2-0 |
+| Mecklenburg-Vorpommern | LAiV MV | [laiv.geodaten-mv.de](https://laiv.geodaten-mv.de/afgvk/Geotopographie/Download?produkt=DGM1) | dl-de/by-2-0 |
+| Lower Saxony | LGLN | [opengeodata.lgln.niedersachsen.de](https://opengeodata.lgln.niedersachsen.de/) | cc-by/4.0 |
+| North Rhine-Westphalia | Geobasis NRW | [opengeodata.nrw.de](https://www.opengeodata.nrw.de/produkte/geobasis/hm/dgm1_tiff/) | dl-de/by-2-0 |
+| Rhineland-Palatinate | LVermGeo RP | [geoshop.rlp.de](https://geoshop.rlp.de/opendata-dgm1.html) | dl-de/by-2-0 |
+| Saarland | LVGL-SL | [saarland.de/lvgl](https://www.saarland.de/lvgl/DE/themen-aufgaben/themen/geotopographie/digitalegelaendemodelle/digitalegelaendemodelle) | dl-de/by-2-0 |
+| Saxony | GeoSN | [geodaten.sachsen.de](https://www.geodaten.sachsen.de/downloadbereich-digitale-hoehenmodelle-4851.html) | dl-de/by-2-0 |
+| Saxony-Anhalt | LVermGeo ST | [lvermgeo.sachsen-anhalt.de](https://www.lvermgeo.sachsen-anhalt.de/de/gdp-dgm-dom-lsa.html) | dl-de/by-2-0 |
+| Schleswig-Holstein | LVermGeo SH | [opendata.schleswig-holstein.de](https://opendata.schleswig-holstein.de/dataset/digitales-gelandemodell-1-dgm1) | cc-by/4.0 |
+| Thuringia | TLBG | [tlbg.thueringen.de](https://tlbg.thueringen.de/geobasisdaten/3d-informationen/digitale-gelaendemodelle) | dl-de/by-2-0 |
+
+**Format.** Quick-Site-Design expects GeoTIFF with elevation values as float
+and a georeference in the header. Most states deliver exactly that, Lower
+Saxony as Cloud-Optimized GeoTIFF. Bremen, Schleswig-Holstein and parts of
+Thuringia publish XYZ ASCII — that data has to be converted before loading,
+for example with GDAL.
+
+**Tiling.** Usually 1 × 1 km, sometimes 2 × 2 km. Several tiles can be selected
+together and are merged on load.
+
+**Building models.** LOD2 data mostly sits in the same portals, occasionally
+under different licences. Search there for "LoD2" or "3D-Gebäudemodell".
+
+**Attribution.** Both licences require a source statement. The exact wording is
+in the metadata of the respective state.
+
+Data from other countries works too, as long as the GeoTIFF carries a projected
+coordinate system and the CityGML uses the same one.
 
 ---
 
