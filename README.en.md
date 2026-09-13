@@ -41,14 +41,16 @@ installation, no build step. Open it, drop in a terrain model, get going.
   manufacturers' original data sheets.
 - 9 Liebherr mobile cranes from 50 t to 750 t.
 - Haul roads as a polyline with filleted corners; the alignment drapes onto the
-  terrain and nodes can be moved afterwards.
+  terrain. Selecting a road reveals its nodes, which can be moved or deleted.
 
 **Interaction**
-- Left-click on terrain or buildings sets a measure point and shows easting,
-  northing and elevation right at the point.
-- Warning when crane radii overlap.
-- Three interface styles (AutoCAD, Revit, Forma), eleven typefaces, German and
-  English.
+- Left-click on terrain or buildings sets a measure point, shows easting,
+  northing and elevation right at the point, and makes it the orbit and zoom
+  centre.
+- **2D** button for a straight top view, compass for north orientation.
+- Warning when crane radii overlap; the haul road radius slider turns red as
+  soon as the minimum radius no longer fits between the nodes.
+- Two interface styles (dark and light), eleven typefaces, German and English.
 
 ---
 
@@ -125,7 +127,8 @@ alongside and referenced locally.
 ### With GitHub Pages
 
 1. Create a repository named `quick-site-design`, visibility **Public**
-2. Upload the contents of this folder
+2. Upload the contents of this folder, including `demo/` — the demo link needs
+   the two uncompressed files, a browser cannot unpack a ZIP
 3. Settings → Pages → Source: `Deploy from a branch`, branch `main`, folder
    `/ (root)`
 4. After a minute or two the page is live at
@@ -160,7 +163,9 @@ node test/test-ui.js         # interface in the shared scope
 node test/validate-html.js   # the assembled file
 ```
 
-All three must pass before shipping. The conventions that the code relies on are
+All three must pass before shipping. In addition,
+`node test/demo-check.js demo/demo_lod2.gml` verifies the sample data against
+the real processing chain. The conventions that the code relies on are
 documented in `PROJEKT.md` (German).
 
 ---

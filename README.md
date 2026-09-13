@@ -2,6 +2,7 @@
 
 *[English version](README.en.md)*
 
+**Baustelleneinrichtung planen, solange die Idee noch frisch ist.**
 
 Quick-Site-Design ist ein Werkzeug für die frühe Phase der Baustelleneinrichtung.
 Statt Maße zu schätzen oder mit Symbolen auf einem Lageplan zu schieben, lädst du
@@ -40,13 +41,16 @@ Installation, kein Build. Öffnen, Geländemodell hineinziehen, loslegen.
   Original-Datenblättern.
 - 9 Liebherr-Mobilkrane von 50 t bis 750 t.
 - Baustraßen als Polygonzug mit ausgerundeten Ecken; die Trasse legt sich auf
-  das Gelände, Stützpunkte lassen sich nachträglich versetzen.
+  das Gelände. Bei Auswahl erscheinen die Stützpunkte und lassen sich versetzen
+  oder löschen.
 
 **Bedienung**
-- Linksklick auf Gelände oder Gebäude setzt einen Messpunkt und zeigt
-  Rechtswert, Hochwert und Höhe direkt am Punkt.
-- Warnung bei sich überschneidenden Kranradien.
-- Drei Oberflächen (AutoCAD, Revit, Forma), elf Schriftarten, Deutsch/Englisch.
+- Linksklick auf Gelände oder Gebäude setzt einen Messpunkt, zeigt Rechtswert,
+  Hochwert und Höhe direkt am Punkt und macht ihn zum Dreh- und Zoomzentrum.
+- **2D**-Knopf für die senkrechte Draufsicht, Kompass für die Nordausrichtung.
+- Warnung bei sich überschneidenden Kranradien; der Radiusregler der Baustraße
+  färbt sich, sobald der Mindestradius nicht mehr zwischen die Stützpunkte passt.
+- Zwei Oberflächen (dunkel und hell), elf Schriftarten, Deutsch und Englisch.
 
 ---
 
@@ -124,7 +128,9 @@ ausgeliefert und lokal eingebunden werden.
 ### Mit GitHub Pages
 
 1. Repository `quick-site-design` anlegen, Sichtbarkeit **Public**
-2. Inhalt dieses Ordners hochladen
+2. Inhalt dieses Ordners hochladen, einschließlich `demo/` — die beiden
+   unkomprimierten Demo-Dateien braucht der Demo-Link, ein ZIP kann der Browser
+   nicht entpacken
 3. Settings → Pages → Source auf `Deploy from a branch`, Branch `main`, Ordner `/ (root)`
 4. Nach ein bis zwei Minuten ist die Seite unter
    `https://Mucnese.github.io/quick-site-design/` erreichbar
@@ -158,8 +164,9 @@ node test/test-ui.js         # Oberfläche im gemeinsamen Scope
 node test/validate-html.js   # fertige Datei
 ```
 
-Alle drei müssen grün sein, bevor ausgeliefert wird. Details zu den
-Festlegungen im Code stehen in `PROJEKT.md`.
+Alle drei müssen grün sein, bevor ausgeliefert wird. Zusätzlich prüft
+`node test/demo-check.js demo/demo_lod2.gml` die Beispieldaten gegen die echte
+Verarbeitungskette. Details zu den Festlegungen im Code stehen in `PROJEKT.md`.
 
 ---
 
