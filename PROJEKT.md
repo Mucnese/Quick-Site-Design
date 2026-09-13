@@ -25,9 +25,17 @@ Der Build entfernt die Node-Exportblöcke am Ende von `app.js` und `ui.js`.
 Beide Dateien liegen im Browser deshalb im selben Scope und teilen sich ihre
 Variablen (`scene`, `TERRAIN`, `objects`, `activeTool`, `SETTINGS`).
 
-**Externe Bibliotheken:** three.js r128 (cdnjs), OrbitControls r128 (jsDelivr —
-cdnjs führt den examples-Pfad nicht), geotiff.js 2.1.3 (jsDelivr). Alle MIT,
-mit der GPLv3 verträglich.
+**Bibliotheken** liegen lokal in `lib/`: three.js r128, OrbitControls r128,
+geotiff.js 2.1.3. Alle MIT, mit der GPLv3 verträglich. Bewusst kein CDN, damit
+beim Aufruf keine Besucherdaten an Dritte gehen — das hält die
+Datenschutzerklärung kurz. Die Dateien sind nicht im Repository; Bezugsquellen
+in `lib/LIESMICH.txt`. **Version nicht wechseln**, die Anwendung ist gegen
+three.js r128 gebaut.
+
+**Rechtliche Seiten** `impressum.html` und `datenschutz.html` liegen neben
+`index.html` und werden nicht mitgebaut. Ändert sich etwas an den geladenen
+Fremdinhalten, muss die Datenschutzerklärung nachgezogen werden — derzeit
+beschreibt sie den Zustand ohne jede CDN-Verbindung.
 
 ---
 
@@ -134,11 +142,6 @@ Grafik vorliegt.
 
 Abstützmaße und Fahrzeuglängen sind schematisch und dienen der Darstellung.
 
-**PDFs einlesen:** Die Chat-Oberfläche rendert jede Seite als Bild und läuft ins
-Limit. Als ZIP hochgeladen landen die Dateien unverändert auf der Platte.
-Einzeln verarbeiten, Zwischenergebnisse als JSON ablegen — große Dateien
-brauchen bis zu zwei Minuten.
-
 ---
 
 ## Bekannte Grenzen
@@ -153,15 +156,3 @@ brauchen bis zu zwei Minuten.
 - Die 2D-Ansicht ist eine perspektivische Kamera von oben, keine echte
   Orthogonalprojektion. Sie ist eine Rücksetzung, kein Modus: `refreshTopView`
   löscht den Zustand, sobald die Neigung 3° überschreitet
-
----
-
-## Offene Ideen
-
-- Ear-Clipping statt Fächertriangulierung
-- Flaches Hilfsgelände aus CityGML ableiten, damit Gebäude ohne DGM gehen
-- Kachelabruf aus den Geoportalen der Länder (sehr unterschiedliche
-  Schnittstellen: teils WCS/WFS, teils nur ZIP-Downloads)
-- Fassung ohne CDN für den Offline-Betrieb
-- Profilschnitte und Massen für die Baustraße
-- Echte Orthogonalkamera für die 2D-Ansicht

@@ -154,8 +154,17 @@ quick-site-design/
 ├── LICENSE
 ├── build.py
 ├── .gitignore
+├── impressum.html
+├── datenschutz.html
+├── lib/                  three.js, OrbitControls, geotiff.js
 ├── docs/
 │   └── header.png        Titelbild für das README
+├── impressum.html
+├── datenschutz.html
+├── lib/
+│   ├── three.min.js      Bibliotheken, lokal statt vom CDN
+│   ├── OrbitControls.js
+│   └── geotiff.js
 ├── demo/
 │   ├── demo_dgm.tif      Geländemodell für den Demo-Link
 │   └── demo_lod2.gml     Gebäudemodell für den Demo-Link
@@ -190,13 +199,25 @@ von einem CDN geladen:
 | OrbitControls (three.js examples) | MIT |
 | geotiff.js 2.1.3 | MIT |
 
-Alle drei sind mit der GPLv3 verträglich. Ohne Internetverbindung startet die
-Anwendung nicht; für den Offline-Betrieb müssen die Bibliotheken mit
-ausgeliefert und lokal eingebunden werden.
+Alle drei sind mit der GPLv3 verträglich und liegen im Ordner `lib/`. Sie
+werden **nicht** von einem CDN nachgeladen: so entstehen beim Aufruf keine
+Verbindungen zu fremden Servern, und die Anwendung läuft auch ohne
+Internetverbindung.
 
-Zum Betrieb auf eigenem Webspace genügt es, `index.html` in das
-Web-Verzeichnis zu legen. Soll auch der Demo-Link funktionieren, muss der
-Ordner `demo/` danebenliegen.
+Die Dateien selbst sind nicht im Repository enthalten. Wie du sie besorgst,
+steht in [`lib/LIESMICH.txt`](lib/LIESMICH.txt) — drei Downloads, zwei Minuten.
+
+Zum Betrieb auf eigenem Webspace legst du `index.html` mitsamt den Ordnern
+`lib/` und `demo/` ins Web-Verzeichnis.
+
+---
+
+## Rechtliches
+
+[Impressum](impressum.html) · [Datenschutzerklärung](datenschutz.html)
+
+Beide Seiten enthalten Platzhalter für Anschrift und E-Mail, die vor dem
+Veröffentlichen ausgefüllt werden müssen.
 
 ---
 
