@@ -668,6 +668,7 @@ function initSharedResources() {
   GEO.sphere = new THREE.SphereGeometry(1, 16, 12);
 
   MAT.container   = new THREE.MeshLambertMaterial({ color: 0xffffff });
+  MAT.linkBlock   = new THREE.MeshLambertMaterial({ color: 0xbfb8ab });
   MAT.steelDark   = new THREE.MeshLambertMaterial({ color: 0x4a5258 });
   MAT.craneYellow = new THREE.MeshLambertMaterial({ color: 0xe8b23c });
   MAT.craneRed    = new THREE.MeshLambertMaterial({ color: 0xc4472e });
@@ -1341,55 +1342,45 @@ const CONTAINER_GAP = 0.08;
 function containerLayout(p) {
   const gap = CONTAINER_GAP;
   const cols = Math.max(1, Math.round(p.cols));
-  const rows = Math.max(1, Math.round(p.rows));
+  const rows = Math.min(2, Math.max(1, Math.round(p.rows)));
   const levels = Math.max(1, Math.round(p.levels));
 
-  // Tiefe der Anlage wird von der Längsreihe vorgegeben
+  // Alle Container liegen längs: Länge in X, Breite in Z
   const depth = cols * p.unitB + (cols - 1) * gap;
 
-  const meta = [];
-  for (let r = 0; r < rows; r++) {
-    if (r % 2 === 0) {
-      meta.push({ quer: false, thick: p.unitL, n: cols, step: p.unitB });
-    } else {
-      const n = Math.max(1, Math.round((depth + gap) / (p.unitL + gap)));
-      meta.push({ quer: true, thick: p.unitB, n: n, step: p.unitL });
-    }
-  }
-
-  let totalW = (rows - 1) * gap;
-  meta.forEach(function (m) { totalW += m.thick; });
+  // Bei zwei Reihen bleibt dazwischen ein Gang von einer Containerbreite,
+  // der von einem schlichten Verbindungsbau ausgefüllt wird.
+  const link = rows === 2 ? p.unitB : 0;
+  const totalW = rows * p.unitL + link;
 
   const items = [];
-  let maxDepth = 0;
-  let run = 0;
-  meta.forEach(function (m) {
-    const cx = -totalW / 2 + run + m.thick / 2;
-    run += m.thick + gap;
-    const rowDepth = m.n * m.step + (m.n - 1) * gap;
-    if (rowDepth > maxDepth) maxDepth = rowDepth;
+  for (let r = 0; r < rows; r++) {
+    const cx = -totalW / 2 + p.unitL / 2 + r * (p.unitL + link);
     for (let lv = 0; lv < levels; lv++) {
-      for (let i = 0; i < m.n; i++) {
+      for (let i = 0; i < cols; i++) {
         items.push({
           x: cx,
           y: p.unitH / 2 + lv * p.unitH,
-          z: -rowDepth / 2 + m.step / 2 + i * (m.step + gap),
-          quer: m.quer,
+          z: -depth / 2 + p.unitB / 2 + i * (p.unitB + gap),
+          quer: false,
+          row: r,
           level: lv,
           idx: i
         });
       }
     }
-  });
+  }
 
   return {
     items: items,
     count: items.length,
     w: totalW,
-    d: maxDepth,
+    d: depth,
     h: levels * p.unitH,
     rows: rows,
-    levels: levels
+    levels: levels,
+    // Maße des Verbindungsbaus; null, solange nur eine Reihe steht
+    link: link ? { w: link, d: depth, h: levels * p.unitH, x: 0 } : null
   };
 }
 
@@ -1408,16 +1399,27 @@ function buildContainer(p) {
 
   lay.items.forEach(function (it, i) {
     dummy.position.set(it.x, it.y, it.z);
-    dummy.rotation.set(0, it.quer ? Math.PI / 2 : 0, 0);
+    dummy.rotation.set(0, 0, 0);
     dummy.scale.set(p.unitL, p.unitH, p.unitB);
     dummy.updateMatrix();
     inst.setMatrixAt(i, dummy.matrix);
-    color.setHex(palette[(it.idx * 7 + it.level * 23 + (it.quer ? 3 : 0)) % 5]);
+    color.setHex(palette[(it.idx * 7 + it.level * 23 + it.row * 11) % 5]);
     inst.setColorAt(i, color);
   });
   inst.instanceMatrix.needsUpdate = true;
   if (inst.instanceColor) inst.instanceColor.needsUpdate = true;
   g.add(inst);
+
+  // Verbindungsbau zwischen den beiden Reihen
+  if (lay.link) {
+    const link = new THREE.Mesh(GEO.box, MAT.linkBlock);
+    link.scale.set(lay.link.w, lay.link.h, lay.link.d);
+    link.position.set(lay.link.x, lay.link.h / 2, 0);
+    link.castShadow = true;
+    link.receiveShadow = true;
+    link.name = 'link';
+    g.add(link);
+  }
 
   const outline = new THREE.LineSegments(
     new THREE.EdgesGeometry(new THREE.BoxGeometry(lay.w, lay.h, lay.d)),
@@ -1429,6 +1431,7 @@ function buildContainer(p) {
   g.userData.bbox = { w: lay.w, d: lay.d, h: lay.h };
   g.userData.selBox = { w: lay.w, d: lay.d, h: lay.h, cy: lay.h / 2 };
   g.userData.count = lay.count;
+  g.userData.link = lay.link;
   g.rotation.y = (p.rot || 0) * Math.PI / 180;
   return g;
 }
@@ -2697,7 +2700,7 @@ function applyLanguage() {
 const SCHEMAS = {
   container: [
     { key: 'cols',   label: 'fCols',  type: 'range', min: 1, max: 25, step: 1, unit: '' },
-    { key: 'rows',   label: 'fRows', type: 'range', min: 1, max: 3,  step: 1, unit: '' },
+    { key: 'rows',   label: 'fRows', type: 'range', min: 1, max: 2,  step: 1, unit: '' },
     { key: 'levels', label: 'fLevels',            type: 'range', min: 1, max: 5,  step: 1, unit: '' },
     { key: 'rot',    label: 'fRot',         type: 'range', min: 0, max: 355, step: 5, unit: '°' },
     { key: 'unitL',  label: 'fUnitL',  type: 'number', min: 2, max: 15, step: 0.01, unit: 'm' },

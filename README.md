@@ -35,8 +35,9 @@ Installation, kein Build. Öffnen, Geländemodell hineinziehen, loslegen.
 - Koordinatenbezugssystem wird aus den GeoKeys gelesen.
 
 **Bausteine**
-- Containeranlagen bis 25 nebeneinander, 3 Reihen, 5 Stockwerke. Ab der zweiten
-  Reihe liegt jede zweite quer, wie ein Querriegel.
+- Containeranlagen bis 25 nebeneinander, 2 Reihen, 5 Stockwerke. Bei zwei Reihen
+  bleibt dazwischen ein Gang von einer Containerbreite, ausgefüllt von einem
+  schlichten Verbindungsbau.
 - 34 Turmdrehkrane von Liebherr und WOLFFKRAN, sämtliche Kennwerte aus den
   Original-Datenblättern.
 - 9 Liebherr-Mobilkrane von 50 t bis 750 t.

@@ -35,8 +35,9 @@ installation, no build step. Open it, drop in a terrain model, get going.
 - The coordinate reference system is read from the GeoKeys.
 
 **Site elements**
-- Container blocks up to 25 side by side, 3 rows, 5 storeys. From the second row
-  onwards every other row lies crosswise, like a cross tie.
+- Container blocks up to 25 side by side, 2 rows, 5 storeys. With two rows a
+  walkway one container wide is left between them, filled by a plain connecting
+  block.
 - 34 tower cranes from Liebherr and WOLFFKRAN, all figures taken from the
   manufacturers' original data sheets.
 - 9 Liebherr mobile cranes from 50 t to 750 t.

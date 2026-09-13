@@ -94,7 +94,7 @@ app.js
   readTiffTiles / parseCityGML        Dateien einlesen
   buildBuildingsMesh                  ein Mesh für alle Gebäude
   getHeightAt / worldToUTM            Höhe und Koordinaten
-  containerLayout / buildContainer    Containeranlage
+  containerLayout / buildContainer    Containeranlage samt Verbindungsbau
   buildTowerCrane / buildMobileCrane  Krane
   filletPath / buildRoad / roadInfo   Baustraße
   showRoadNodes / moveRoadNode        Stützpunkte bearbeiten
