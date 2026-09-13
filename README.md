@@ -48,7 +48,9 @@ Installation, kein Build. Öffnen, Geländemodell hineinziehen, loslegen.
 **Bedienung**
 - Linksklick auf Gelände oder Gebäude setzt einen Messpunkt, zeigt Rechtswert,
   Hochwert und Höhe direkt am Punkt und macht ihn zum Dreh- und Zoomzentrum.
-- **2D**-Knopf für die senkrechte Draufsicht, Kompass für die Nordausrichtung.
+- **2D**-Knopf setzt die Ansicht senkrecht von oben; ein Ziehen kippt sie wieder
+  frei in den Raum. Der Kompass zeigt die Nordrichtung und richtet auf Klick
+  danach aus.
 - Warnung bei sich überschneidenden Kranradien; der Radiusregler der Baustraße
   färbt sich, sobald der Mindestradius nicht mehr zwischen die Stützpunkte passt.
 - Zwei Oberflächen (dunkel und hell), elf Schriftarten, Deutsch und Englisch.

@@ -100,7 +100,8 @@ app.js
   showRoadNodes / moveRoadNode        Stützpunkte bearbeiten
   addObject / rebuildObject / moveObject / removeObject
   selectObjects / frameObjects / focusOnPoint / updateControls
-  setTopView / faceNorth / northAngle Ansichtssteuerung
+  setTopView / refreshTopView         Draufsicht, erlischt beim Drehen
+  faceNorth / northAngle / cameraTilt Nordrichtung und Neigung
   computeStats / radiusConflicts      Kennzahlen und Warnungen
 
 ui.js
@@ -148,7 +149,8 @@ brauchen bis zu zwei Minuten.
   (2,5 Mio. Punkte) wird sie mit Meldung abgelehnt
 - Einstellungen überleben kein Neuladen
 - Die 2D-Ansicht ist eine perspektivische Kamera von oben, keine echte
-  Orthogonalprojektion
+  Orthogonalprojektion. Sie ist eine Rücksetzung, kein Modus: `refreshTopView`
+  löscht den Zustand, sobald die Neigung 3° überschreitet
 
 ---
 

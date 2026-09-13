@@ -48,7 +48,8 @@ installation, no build step. Open it, drop in a terrain model, get going.
 - Left-click on terrain or buildings sets a measure point, shows easting,
   northing and elevation right at the point, and makes it the orbit and zoom
   centre.
-- **2D** button for a straight top view, compass for north orientation.
+- **2D** button resets the view to straight from above; dragging tilts it back
+  into space. The compass shows north and orients to it on click.
 - Warning when crane radii overlap; the haul road radius slider turns red as
   soon as the minimum radius no longer fits between the nodes.
 - Two interface styles (dark and light), eleven typefaces, German and English.
