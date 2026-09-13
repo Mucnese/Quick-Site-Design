@@ -72,10 +72,8 @@ Der Datensatz:
 ETRS89 / UTM Zone 32N (EPSG:25832), Südwestecke bei E 692000 / N 5336000,
 gelegen bei etwa 48,153 Nord und 11,588 Ost.
 
-Wer lieber selbst lädt, findet unter
-[`demo/quick-site-design-demo.zip`](demo/quick-site-design-demo.zip) die
-ungekürzten Originaldateien (2913 Gebäude, 8 MB gepackt) zum Einlesen über die
-Dateifelder.
+Eigene Daten lädst du über die beiden Dateifelder unter **Daten** — erst das
+Geländemodell, dann die Gebäude.
 
 Die Daten stammen aus amtlichen Geobasisdaten der deutschen Landesvermessung.
 Beim Weiterverwenden sind die Nutzungsbedingungen des herausgebenden
@@ -107,6 +105,36 @@ die Daten unter der Datenlizenz Deutschland heraus.
 
 Das Programm erwartet GeoTIFF mit Höhenwerten als Float und eine Georeferenz im
 Header. Für CityGML reicht die übliche LOD2-Ausgabe der Länder.
+
+---
+
+## Aufbau des Repositorys
+
+```
+quick-site-design/
+├── index.html            die Anwendung, eigenständig
+├── README.md
+├── README.en.md
+├── PROJEKT.md            Entwicklernotizen
+├── LICENSE
+├── build.py
+├── .gitignore
+├── demo/
+│   ├── demo_dgm.tif      Geländemodell für den Demo-Link
+│   └── demo_lod2.gml     Gebäudemodell für den Demo-Link
+├── src/
+│   ├── shell_head.html
+│   ├── app.js
+│   ├── ui.js
+│   └── boot.js
+└── test/
+    ├── test.js
+    ├── test-ui.js
+    ├── validate-html.js
+    ├── demo-check.js
+    ├── three-stub.js
+    └── xml-stub.js
+```
 
 ---
 

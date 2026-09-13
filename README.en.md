@@ -72,9 +72,8 @@ The data set:
 ETRS89 / UTM zone 32N (EPSG:25832), south-west corner at E 692000 / N 5336000,
 located at roughly 48.153 North and 11.588 East.
 
-If you prefer to load the files yourself,
-[`demo/quick-site-design-demo.zip`](demo/quick-site-design-demo.zip) holds the
-unabridged originals (2913 buildings, 8 MB packed) for use with the file inputs.
+Load your own data through the two file inputs under **Data** — terrain first,
+then buildings.
 
 The data originates from official German surveying data. When reusing it,
 observe the terms of the issuing state authority.
@@ -107,6 +106,36 @@ The application expects GeoTIFF with elevation values as float and a
 georeference in the header. For buildings, the usual LOD2 output of the German
 states works as is. Data from other countries works too, as long as the GeoTIFF
 carries a projected coordinate system and the CityGML uses the same one.
+
+---
+
+## Repository layout
+
+```
+quick-site-design/
+├── index.html            the application, self-contained
+├── README.md             German
+├── README.en.md
+├── PROJEKT.md            developer notes (German)
+├── LICENSE
+├── build.py
+├── .gitignore
+├── demo/
+│   ├── demo_dgm.tif      terrain model for the demo link
+│   └── demo_lod2.gml     building model for the demo link
+├── src/
+│   ├── shell_head.html
+│   ├── app.js
+│   ├── ui.js
+│   └── boot.js
+└── test/
+    ├── test.js
+    ├── test-ui.js
+    ├── validate-html.js
+    ├── demo-check.js
+    ├── three-stub.js
+    └── xml-stub.js
+```
 
 ---
 
