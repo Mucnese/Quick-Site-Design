@@ -19,7 +19,7 @@ aber es erspart die Runden, in denen man sie sonst dreimal verwirft.
 Technisch ist es eine einzige HTML-Datei von rund 140 KB. Kein Server, keine
 Installation, kein Build. Öffnen, Geländemodell hineinziehen, loslegen.
 
-**[→ Anwendung öffnen](https://Mucnese.github.io/quick-site-design/)**
+**[→ Anwendung öffnen](https://mucnese.github.io/Quick-Site-Design/)**
 
 ---
 
