@@ -2,7 +2,6 @@
 
 *[English version](README.en.md)*
 
-**Baustelleneinrichtung planen, solange die Idee noch frisch ist.**
 
 Quick-Site-Design ist ein Werkzeug für die frühe Phase der Baustelleneinrichtung.
 Statt Maße zu schätzen oder mit Symbolen auf einem Lageplan zu schieben, lädst du
