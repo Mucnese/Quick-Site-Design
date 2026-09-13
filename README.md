@@ -1,5 +1,7 @@
 # Quick-Site-Design
 
+![Quick-Site-Design](docs/header.png)
+
 *[English version](README.en.md)*
 
 **Baustelleneinrichtung planen, solange die Idee noch frisch ist.**
@@ -18,8 +20,6 @@ aber es erspart die Runden, in denen man sie sonst dreimal verwirft.
 
 Technisch ist es eine einzige HTML-Datei von rund 140 KB. Kein Server, keine
 Installation, kein Build. Öffnen, Geländemodell hineinziehen, loslegen.
-
-![Quick-Site-Design](docs/header.png)
 
 **[→ Anwendung öffnen](https://Mucnese.github.io/quick-site-design/)**
 
