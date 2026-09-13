@@ -19,6 +19,8 @@ aber es erspart die Runden, in denen man sie sonst dreimal verwirft.
 Technisch ist es eine einzige HTML-Datei von rund 140 KB. Kein Server, keine
 Installation, kein Build. Öffnen, Geländemodell hineinziehen, loslegen.
 
+![Quick-Site-Design](docs/header.png)
+
 **[→ Anwendung öffnen](https://Mucnese.github.io/quick-site-design/)**
 
 ---
@@ -122,6 +124,8 @@ quick-site-design/
 ├── LICENSE
 ├── build.py
 ├── .gitignore
+├── docs/
+│   └── header.png        Titelbild für das README
 ├── demo/
 │   ├── demo_dgm.tif      Geländemodell für den Demo-Link
 │   └── demo_lod2.gml     Gebäudemodell für den Demo-Link

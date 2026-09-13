@@ -19,6 +19,8 @@ rounds in which that design would otherwise be discarded three times over.
 Technically it is a single HTML file of roughly 140 KB. No server, no
 installation, no build step. Open it, drop in a terrain model, get going.
 
+![Quick-Site-Design](docs/header.png)
+
 **[→ Open the application](https://Mucnese.github.io/quick-site-design/)**
 
 ---
@@ -122,6 +124,8 @@ quick-site-design/
 ├── LICENSE
 ├── build.py
 ├── .gitignore
+├── docs/
+│   └── header.png        header image for the README
 ├── demo/
 │   ├── demo_dgm.tif      terrain model for the demo link
 │   └── demo_lod2.gml     building model for the demo link
