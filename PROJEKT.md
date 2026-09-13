@@ -169,11 +169,9 @@ Interpolierte Modelle wurden entfernt. Aufgenommen sind nur Krane mit Hersteller
 
 Nicht belegte Felder stehen auf `null`. Die Oberfläche gibt dann keinen Höchstwert vor, sondern lässt den Reglerbereich aus dem Schema stehen.
 
-**PDF-Datenblätter einlesen:** Die Chat-Oberfläche rendert jede PDF-Seite als Bild und läuft ins Bildlimit. Als ZIP hochgeladen landen die Dateien dagegen unverändert auf der Platte und lassen sich mit `pdfplumber` als Text auslesen. Große Dateien brauchen pro Stück bis zu zwei Minuten, deshalb einzeln verarbeiten und Zwischenergebnisse als JSON ablegen.
 
-**Abstützmaße und Fahrzeuglängen sind schematisch** und dienen nur der Darstellung, nicht der Bemessung.
 
-Jeder Kraneditor zeigt den Hinweis auf den Richtwertcharakter und verlinkt auf die Herstellerseite. Für die Einsatzplanung ist die Traglasttabelle maßgeblich, nicht dieses Werkzeug.
+
 
 ---
 
@@ -198,8 +196,3 @@ Jeder Kraneditor zeigt den Hinweis auf den Richtwertcharakter und verlinkt auf d
 
 ---
 
-## Hosting
-
-`index.html` per SFTP oder Datei-Manager in das Web-Verzeichnis legen, fertig. Bei IONOS wird zusätzlich zur Domain ein Webhosting-Paket gebraucht — Domains werden dort getrennt verkauft. Alternativ kostenlos bei GitHub Pages, Netlify oder Cloudflare Pages hosten und die Domain per DNS dorthin zeigen lassen.
-
-SSL im Kundenkonto aktivieren. Bei vertraulichen Planungen zusätzlich Verzeichnisschutz einrichten, die Seite wäre sonst öffentlich erreichbar.
