@@ -1,198 +1,163 @@
-# Quick-Site-Design — Projektstand
+# Quick-Site-Design — Entwicklernotizen
 
-Stand: 12. September 2026. Auslieferung ist eine einzige eigenständige Datei: `index.html` (~122 KB).
-
----
-
-## Was das Ding macht
-
-Eine Webseite, die digitale Geländemodelle (GeoTIFF/DGM) und Gebäudemodelle (CityGML LOD2) aus Open Data einliest und daraus eine dreidimensionale Baustelleneinrichtungsplanung macht. Der Nutzer platziert Container, Turmdrehkrane, Mobilkrane und Baustraßen auf dem echten Gelände und kann Koordinaten abgreifen.
-
-Läuft ohne Server, ohne Installation, ohne Build-Schritt. Doppelklick auf die Datei genügt, eine Internetverbindung wird nur für drei CDN-Bibliotheken gebraucht.
+Kurzreferenz für die Weiterarbeit. Alles Weitere steht im Code.
 
 ---
 
 ## Aufbau
 
-Die ausgelieferte Datei wird aus fünf Quelldateien zusammengesetzt:
+`index.html` wird aus vier Quelldateien zusammengesetzt:
 
-| Datei | Zeilen | Inhalt |
-|---|---|---|
-| `shell_head.html` | 404 | HTML-Gerüst, komplettes CSS, `<script src>`-Tags der Bibliotheken |
-| `app.js` | 1922 | Kernlogik: Szene, Gelände, Bausteine, Geometrie, Objektverwaltung |
-| `ui.js` | 1110 | Bedienoberfläche: Formulare, Palette, Dateiimport, Tweak-Panel |
-| `boot.js` | 45 | Startsequenz und Renderschleife |
+| Datei | Inhalt |
+|---|---|
+| `src/shell_head.html` | HTML-Gerüst, komplettes CSS, CDN-Skripte |
+| `src/app.js` | Szene, Gelände, Bausteine, Geometrie, Objektverwaltung |
+| `src/ui.js` | Bedienoberfläche, Formulare, Dateiimport, Sprachen |
+| `src/boot.js` | Startsequenz und Renderschleife |
 
-Der Zusammenbau entfernt die Node-Exportblöcke am Ende von `app.js` und `ui.js` und hängt alles in ein einziges `<script>`. Deshalb liegen beide Dateien im selben Scope und greifen direkt auf gemeinsame Variablen zu (`scene`, `TERRAIN`, `objects`, `activeTool`, …). Das ist Absicht, nicht Nachlässigkeit.
-
-**Build-Befehl** (Python, im Arbeitsverzeichnis):
-
-```python
-def strip(src):
-    i = src.find("if (typeof module !== 'undefined' && module.exports) {")
-    return src[:i].rstrip() + "\n" if i >= 0 else src
-
-out = (open('shell_head.html').read()
-       + strip(open('app.js').read()) + "\n"
-       + strip(open('ui.js').read()) + "\n"
-       + open('boot.js').read() + "\n</script>\n</body>\n</html>\n")
-open('/mnt/user-data/outputs/index.html', 'w').write(out)
+```bash
+python3 build.py
 ```
 
-### Externe Bibliotheken
+Der Build entfernt die Node-Exportblöcke am Ende von `app.js` und `ui.js`.
+Beide Dateien liegen im Browser deshalb im selben Scope und teilen sich ihre
+Variablen (`scene`, `TERRAIN`, `objects`, `activeTool`, `SETTINGS`).
 
-```
-three.js r128        cdnjs
-OrbitControls r128   jsDelivr  (cdnjs führt den examples-Pfad nicht — wichtig!)
-geotiff.js 2.1.3     jsDelivr  (dist-browser-Bundle)
-```
+**Externe Bibliotheken:** three.js r128 (cdnjs), OrbitControls r128 (jsDelivr —
+cdnjs führt den examples-Pfad nicht), geotiff.js 2.1.3 (jsDelivr). Alle MIT,
+mit der GPLv3 verträglich.
 
 ---
 
-## Testaufbau
-
-Kein Browser verfügbar, deshalb wird gegen selbstgebaute Stubs getestet.
-
-| Datei | Tests | Zweck |
-|---|---|---|
-| `test.js` | 127 | Kernlogik gegen `three-stub.js` |
-| `test-ui.js` | 82 | `app.js` + `ui.js` im gemeinsamen Scope via `vm`, gegen DOM-Stub |
-| `validate-html.js` | 29 | Fertige HTML-Datei: Struktur, IDs, Syntax, Laufzeit im Stub-Browser |
-
-`three-stub.js` (321 Zeilen) bildet die genutzte Three.js-Teilmenge nach und wirft bei Fehlbedienung — dadurch fallen Tippfehler und falsche Indizes auf. `xml-stub.js` (127 Zeilen) ist ein kleiner XML-Parser als `DOMParser`-Ersatz.
-
-**Alle drei müssen grün sein, bevor ausgeliefert wird.**
+## Tests
 
 ```bash
-for f in test.js test-ui.js validate-html.js; do node $f | grep Bestanden; done
+node test/test.js            # Kernlogik gegen three-stub.js
+node test/test-ui.js         # app.js + ui.js im gemeinsamen Scope, DOM-Stub
+node test/validate-html.js   # fertige Datei: Struktur, IDs, Syntax, Laufzeit
 ```
+
+Alle drei müssen grün sein. `test/three-stub.js` bildet die genutzte
+Three.js-Teilmenge nach und wirft bei Fehlbedienung, `test/xml-stub.js` ist ein
+`DOMParser`-Ersatz. `test/demo-check.js` prüft die Beispieldaten gegen die
+echte Verarbeitungskette.
 
 ---
 
 ## Festlegungen, die nicht verhandelbar sind
 
-Diese Punkte sind mehrfach Ursache von Fehlern gewesen:
+Jeder dieser Punkte war schon einmal Fehlerursache.
 
-**Achsenkonvention:** `+x = Ost`, `-z = Nord`, `y = Höhe in Metern über `TERRAIN.zmin``. Nord auf `+z` ergibt von oben betrachtet ein Spiegelbild. Gilt für Gelände, GeoTIFF-Import, CityGML und Koordinatenanzeige gleichermaßen.
+**Achsen:** `+x = Ost`, `-z = Nord`, `y` = Meter über `TERRAIN.zmin`. Nord auf
+`+z` ergibt von oben ein Spiegelbild.
 
-**Maßstab:** 1 Three.js-Einheit = 1 Meter. Keine Überhöhung, wurde auf Wunsch entfernt.
+**Maßstab:** 1 Einheit = 1 Meter, keine Überhöhung.
 
-**Kein mitgeliefertes Gelände.** Die Seite startet leer, das Datenfenster ist hervorgehoben, die Bausteine sind gesperrt bis eine Datei geladen ist.
+**Kein Startgelände.** Die Seite startet leer, Bausteine bleiben gesperrt, bis
+eine Datei geladen ist.
 
-**Kein `localStorage`/`sessionStorage`.** Einstellungen gelten nur für die Sitzung.
+**Kein `localStorage`/`sessionStorage`.** Einstellungen gelten nur für die
+Sitzung.
 
-**Drehung:** Bei Kranen dreht nur der Oberbau. `g.rotation.y = baseRot`, `slew.rotation.y = rot - baseRot` — dadurch bleibt der Auslegerwinkel absolut, unabhängig vom Fundament.
+**Krandrehung:** `g.rotation.y = baseRot`, `slew.rotation.y = rot - baseRot`.
+So bleibt der Auslegerwinkel absolut, unabhängig vom Fundament.
 
-**Platzierung** läuft über `pointerdown`/`pointerup`, nicht `click`. Mit Bewegungstoleranz (5 px), Wiederholungssperre (250 ms) und Beschränkung auf die linke Maustaste. Sonst werden doppelte Objekte gesetzt.
+**Platzierung** über `pointerdown`/`pointerup`, nicht `click`. Mit
+Bewegungstoleranz 5 px, Wiederholungssperre 250 ms, nur linke Maustaste. Sonst
+entstehen doppelte Objekte.
 
-**Gebäude brauchen `side: THREE.DoubleSide`.** LOD2-Wandpolygone sind uneinheitlich gewickelt; ohne Doppelseitigkeit fehlt etwa die Hälfte der Wände.
+**Gebäude brauchen `side: THREE.DoubleSide`.** LOD2-Wandpolygone sind
+uneinheitlich gewickelt; sonst fehlt die Hälfte der Wände.
 
-**Auswahlrahmen** werden aus `userData.selBox` gebaut, nicht mit `THREE.BoxHelper`. Der Helper ignoriert Instanz-Matrizen und liegt bei Containerblöcken völlig falsch.
+**Auswahlrahmen** aus `userData.selBox`, nicht `THREE.BoxHelper` — der ignoriert
+Instanz-Matrizen und liegt bei Containerblöcken falsch.
 
-**`showRoadNodes` darf die Knotenauswahl nicht zurücksetzen.** Es ruft `dropNodeGroup()` auf, nicht `clearRoadNodes()` — sonst verliert jeder Neuaufbau den gewählten Knoten.
+**`showRoadNodes` ruft `dropNodeGroup()`**, nicht `clearRoadNodes()`, sonst geht
+bei jedem Neuaufbau die Knotenauswahl verloren.
 
-**Esc prüft zuerst den aktiven Knoten**, sonst geht die Objektauswahl mit verloren.
+**Esc prüft zuerst den aktiven Knoten**, sonst verschwindet die Objektauswahl
+gleich mit.
 
-**Detailstufe „Original"** wird als `maxGrid === 0` übergeben. Ein `||`-Fallback macht daraus die Voreinstellung — der Sonderfall muss ausdrücklich geprüft werden.
+**Detailstufe „Original"** kommt als `maxGrid === 0`. Ein `||`-Fallback macht
+daraus die Voreinstellung — der Sonderfall muss ausdrücklich geprüft werden.
 
-**Fallstrick:** `FIELD_ORDER[type] || 9` — `select` hat den Rang 0, der `||`-Kurzschluss macht daraus 9. Deshalb gibt es `fieldRank()`.
-
----
-
-## Funktionsumfang
-
-### Sprachen
-Deutsch und Englisch, umschaltbar über die Knöpfe **DE** und **EN** links neben dem Ansichtsknopf (`setLanguage`). Wörterbuch in `STRINGS` (`ui.js`), Zugriff über `T(key)`. Feste Markup-Texte tragen `data-i18n="key"` und werden von `applyLanguage()` gesetzt; dynamische Texte laufen über `refreshTexts()`. Beide Sprachen müssen dieselben Schlüssel haben — es gibt einen Test dafür.
-
-### Datenimport
-- **GeoTIFF**, mehrere Dateien gleichzeitig. Kacheln werden nicht aneinandergeklebt, sondern alle Pixel in ein gemeinsames Zielraster gemittelt. Unterschiedliche Auflösungen und Überlappungen sind dadurch unkritisch. Lücken werden aus Nachbarwerten gefüllt (`fillGaps`).
-- **CityGML**, mehrere Dateien gleichzeitig. Defekte Dateien werden übersprungen und namentlich gemeldet. Achsenreihenfolge (Rechts-/Hochwert) wird automatisch erkannt. Gebäude außerhalb der Kachel werden verworfen.
-- **Detailstufe**: 140 / 260 / 500 / 900 Stützpunkte oder Originalauflösung. Die eingelesenen Kacheln bleiben im Speicher (`lastDemTiles`), ein Stufenwechsel ruft nur `gridTiles()` erneut auf.
-- **KBS** wird aus den GeoKeys gelesen (`ProjectedCSTypeGeoKey`), Tabelle in `EPSG_NAMES`.
-
-### Bausteine
-- **Container**: 1–25 nebeneinander, 1–3 Reihen hintereinander, 1–5 Stockwerke. Reihe 1 längs, Reihe 2 quer, Reihe 3 wieder längs. `InstancedMesh`, ein Draw-Call pro Block.
-- **Turmdrehkran**: 34 Modelle, sämtliche Werte aus den Original-Datenblättern. 18 Liebherr (85 EC-B 5 bis 1188 EC-H 40, dazu 91 K und 125 K) und 16 WOLFFKRAN (4518 bis 7534.16 clear). Bauarten `schnell`, `flat` (spitzenlos), `head` (mit Turmkopf). Die Turmbreite ist unabhängig vom Modell von 1,1 bis 3,5 m in 0,1-m-Schritten einstellbar.
-- **Mobilkran**: 9 Liebherr LTM von 1050-3.1 (50 t) bis 1750-9.1 (750 t).
-- **Baustraße**: Punkt für Punkt setzen, Leertaste bestätigt. Bei Auswahl erscheinen die Stützpunkte als Kugeln (`showRoadNodes`); ein Klick wählt einen Knoten, der nächste Geländeklick versetzt ihn. „Punkt löschen" entfernt ihn, solange mindestens zwei bleiben. Ecken werden mit `filletPath()` ausgerundet; passt der Radius nicht zwischen zwei Stützpunkte, wird er dort verkleinert und das gemeldet. Trasse folgt dem DGM.
-
-### Bedienung
-- Linksklick auf Gelände oder Gebäude setzt einen Messpunkt (hellgrüne Kugel, `depthTest: false`, konstante Bildschirmgröße). R/H/Z erscheinen als Beschriftung direkt am Punkt, pro Bild neu projiziert.
-- Klick auf ein Objekt zentriert die Kamera darauf.
-- Geräteübersicht oben links gruppiert nach Typ. Klick auf eine Gruppe wählt alle aus und zoomt so weit zurück, dass alle ins Bild passen.
-- Nach dem Platzieren öffnet sich der Editor des neuen Objekts; „Weiterer" übernimmt die Einstellungen für den nächsten.
-- Der Kraneditor zeigt den Hinweis „Nur als Richtwert zu benutzen" und einen Knopf zum Datenblatt des Herstellers (`sheetUrlFor`).
-- **Ansichtsfenster** unten rechts: Design (AutoCAD, Revit, Forma), Schriftart (11 gängige Schriften als Auswahlliste), Schriftgröße, Akzentfarbe, Anordnung, Fensterbreite. Alles über CSS-Variablen auf `document.documentElement`. Der Eckenradius kommt aus dem Design und ist nicht mehr einzeln einstellbar.
+**`FIELD_ORDER[type] || 9`** ist eine Falle: `select` hat Rang 0, der
+Kurzschluss macht daraus 9. Deshalb `fieldRank()`.
 
 ---
 
-## Wichtige Funktionen im Überblick
+## Wichtige Funktionen
 
 ```
 app.js
-  initScene / initSharedResources     Szene, geteilte Geometrien und Materialien
   buildTerrain / gridTiles            Gelände aufbauen und rastern
-  readTiffTile / readTiffTiles        GeoTIFF einlesen
-  parseCityGML / mergeCityGML         Gebäude einlesen und zusammenführen
-  buildBuildingsMesh                  Ein Mesh für alle Gebäude (ein Draw-Call)
-  getHeightAt / getAbsoluteHeightAt   Bilineare Höheninterpolation
-  worldToUTM / utmToWorld             Koordinatenumrechnung
+  readTiffTiles / parseCityGML        Dateien einlesen
+  buildBuildingsMesh                  ein Mesh für alle Gebäude
+  getHeightAt / worldToUTM            Höhe und Koordinaten
   containerLayout / buildContainer    Containeranlage
   buildTowerCrane / buildMobileCrane  Krane
-  filletPath / densifyPath / buildRoad  Baustraße
+  filletPath / buildRoad / roadInfo   Baustraße
+  showRoadNodes / moveRoadNode        Stützpunkte bearbeiten
   addObject / rebuildObject / moveObject / removeObject
-  selectObjects / frameObjects / updateControls   Auswahl und Kamerafahrt
-  setMeasureMarker / measureScreenPos Messpunkt
-  computeStats / radiusConflicts      Kennzahlen und Kollisionswarnung
+  selectObjects / frameObjects / focusOnPoint / updateControls
+  setTopView / faceNorth / northAngle Ansichtssteuerung
+  computeStats / radiusConflicts      Kennzahlen und Warnungen
 
 ui.js
   SCHEMAS / sortFields / buildForm    Parameterformulare
   selectTool / showObjectEditor / showGroupEditor
   handleDemFiles / handleGmlFiles     Dateiimport
-  rebuildTerrainDetail / detailLimit  Detailstufe
-  finishRoad / setRoadHint            Baustraßen-Zeichenmodus
+  loadDemo / demoRequested            Beispieldaten über ?demo=1
+  markRoadRadius                      Warnung am Radiusregler
   renderOverview / buildGroups        Geräteübersicht
+  STRINGS / T / applyLanguage         Sprachen
   applySettings / buildTweakPanel     Darstellung
-  onCanvasPointerDown / Up / onCanvasClick / onKeyDown
 ```
 
 ---
 
-## Datenqualität
+## Datenlage Krane
 
-Interpolierte Modelle wurden entfernt. Aufgenommen sind nur Krane mit Hersteller- oder Vermieterangaben:
+Alle Werte aus den Original-Datenblättern, extrahiert mit `pdfplumber`.
 
-- **Mobilkrane**: LTM 1050-3.1, 1090-4.2, 1150-5.3, 1250-6.1, 1350-6.1, 1450-8.1, 1500-8.1, 1650-8.1, 1750-9.1
-- **Turmdrehkrane**: alle 34 Modelle aus den Original-Datenblättern extrahiert (PDFs, Textebene). Die Extraktoren liegen unter `krane/extract.py` (Liebherr) und `wolff/extract_wolff.py` (WOLFFKRAN).
-  - Liebherr: Ausladung, Maximallast und Spitzenlast aus der Traglasttabelle, Hakenhöhe als größter Wert der Hubhöhentabelle. Zwei Werte hat der Nutzer korrigiert: 85 EC-B 5 = 41,9 m, 270 EC-B 12 = 82,4 m.
-  - WOLFFKRAN: Ausladung, Maximallast und Lastmoment aus dem Kopf des Datenblatts. Bei vier Modellen (5020.8, 6023.6, 6023.8, 6031.8) liegt die Traglasttabelle nur als Grafik vor — deren Spitzenlast steht deshalb auf `null`. Hakenhöhen sind in den WOLFF-Blättern nicht angegeben (turmabhängig) und stehen durchgehend auf `null`.
+- **34 Turmdrehkrane:** 18 Liebherr (85 EC-B 5 bis 1188 EC-H 40, dazu 91 K und
+  125 K), 16 WOLFFKRAN (4518 bis 7534.16 clear)
+- **9 Mobilkrane:** Liebherr LTM 1050-3.1 bis 1750-9.1
 
-Nicht belegte Felder stehen auf `null`. Die Oberfläche gibt dann keinen Höchstwert vor, sondern lässt den Reglerbereich aus dem Schema stehen.
+Nicht belegte Felder stehen auf `null`; die Oberfläche lässt den Reglerbereich
+dann offen, statt einen Anschlag zu erfinden. Betrifft vor allem die
+WOLFF-Hakenhöhen (turmabhängig) und vier Spitzenlasten, deren Tabelle nur als
+Grafik vorliegt.
 
+Abstützmaße und Fahrzeuglängen sind schematisch und dienen der Darstellung.
 
-
-
+**PDFs einlesen:** Die Chat-Oberfläche rendert jede Seite als Bild und läuft ins
+Limit. Als ZIP hochgeladen landen die Dateien unverändert auf der Platte.
+Einzeln verarbeiten, Zwischenergebnisse als JSON ablegen — große Dateien
+brauchen bis zu zwei Minuten.
 
 ---
 
 ## Bekannte Grenzen
 
-- CityGML lässt sich erst nach dem Geländemodell laden (Gebäude werden relativ zum Geländeursprung eingepasst).
-- Flächen mit Löchern (Innenhöfe) werden ignoriert, es wird nur der äußere Ring gelesen.
-- Fächertriangulierung kann bei stark konkaven Dachflächen unsauber aussehen. Ear-Clipping wäre der nächste Schritt.
-- Originalauflösung bei 1000×1000 Punkten: Aufbau dauert Sekunden, Drehen wird träge. Bis etwa 500×500 flüssig. Oberhalb von 2,5 Millionen Stützpunkten (`GRID_CELL_CAP`) wird die Originalstufe mit einer Meldung abgelehnt.
-- Einstellungen im Ansichtsfenster überleben kein Neuladen.
-- Für die Bauarten `head` und `wipp` gibt es derzeit kein Modell, weil keine belegten Daten vorlagen.
+- CityGML lässt sich erst nach dem Geländemodell laden
+- Löcher in Flächen (Innenhöfe) werden ignoriert, nur der äußere Ring zählt
+- Fächertriangulierung kann bei stark konkaven Dachflächen unsauber aussehen;
+  Ear-Clipping wäre der nächste Schritt
+- Originalauflösung bis etwa 500×500 flüssig; oberhalb `GRID_CELL_CAP`
+  (2,5 Mio. Punkte) wird sie mit Meldung abgelehnt
+- Einstellungen überleben kein Neuladen
+- Die 2D-Ansicht ist eine perspektivische Kamera von oben, keine echte
+  Orthogonalprojektion
 
 ---
 
 ## Offene Ideen
 
-- Ear-Clipping statt Fächertriangulierung für Dachflächen
-- Flaches Hilfsgelände aus CityGML-Koordinaten ableiten, damit Gebäude auch ohne DGM gehen
-- Automatischer Kachelabruf aus den Geoportalen der Bundesländer anhand von Koordinaten (die Länder haben sehr unterschiedliche Schnittstellen: teils WCS/WFS, teils nur ZIP-Downloads mit eigener Kachelsystematik)
-- Fassung ohne externe CDN-Abhängigkeiten für den Offline-Betrieb
-- Profilschnitte und Massenberechnung für die Baustraße
-
----
-
+- Ear-Clipping statt Fächertriangulierung
+- Flaches Hilfsgelände aus CityGML ableiten, damit Gebäude ohne DGM gehen
+- Kachelabruf aus den Geoportalen der Länder (sehr unterschiedliche
+  Schnittstellen: teils WCS/WFS, teils nur ZIP-Downloads)
+- Fassung ohne CDN für den Offline-Betrieb
+- Profilschnitte und Massen für die Baustraße
+- Echte Orthogonalkamera für die 2D-Ansicht

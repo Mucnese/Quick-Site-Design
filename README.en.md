@@ -54,30 +54,25 @@ installation, no build step. Open it, drop in a terrain model, get going.
 
 ## Demo
 
-The [`demo/`](demo/) folder holds a complete sample data set, about 8 MB as a
-ZIP archive:
+**[→ Open the demo](https://Mucnese.github.io/quick-site-design/?demo=1)**
+
+The link loads terrain and buildings automatically. After a few seconds you have
+a square kilometre of real terrain with 612 buildings — pick an element from the
+bar at the bottom and click on the terrain.
+
+The data set:
 
 | File | Contents |
 |---|---|
-| `692_5336.tif` | DTM, 1000 × 1000 points, 1 m grid, elevations 503.1 to 520.7 m |
-| `692_5336.gml` | LOD2 building model, CityGML 1.0, 2913 buildings |
+| `demo/demo_dgm.tif` | DTM, 1000 × 1000 points, 1 m grid, elevations 503.1 to 520.7 m |
+| `demo/demo_lod2.gml` | LOD2 building model, 612 buildings, clipped to the tile |
 
-Both in ETRS89 / UTM zone 32N (EPSG:25832), south-west corner at E 692000 /
-N 5336000, located at roughly 48.153 North and 11.588 East.
+ETRS89 / UTM zone 32N (EPSG:25832), south-west corner at E 692000 / N 5336000,
+located at roughly 48.153 North and 11.588 East.
 
-**Getting started:**
-
-1. Download the ZIP and unpack it
-2. Open `index.html` in a browser
-3. Under **Data → Terrain · GeoTIFF** pick `692_5336.tif`
-4. Then under **Buildings · CityGML** pick `692_5336.gml`
-5. Choose an element from the bar at the bottom and click on the terrain
-
-Two things are normal here. Reading the building file takes a few seconds
-depending on your machine, because the uncompressed XML is 74 MB. And the
-building file covers roughly 2 × 2 km, more than the terrain tile — everything
-outside is discarded on load, leaving around 16,000 surfaces. The status line
-reports both figures.
+If you prefer to load the files yourself,
+[`demo/quick-site-design-demo.zip`](demo/quick-site-design-demo.zip) holds the
+unabridged originals (2913 buildings, 8 MB packed) for use with the file inputs.
 
 The data originates from official German surveying data. When reusing it,
 observe the terms of the issuing state authority.

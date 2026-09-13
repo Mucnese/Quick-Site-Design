@@ -19,7 +19,7 @@ aber es erspart die Runden, in denen man sie sonst dreimal verwirft.
 Technisch ist es eine einzige HTML-Datei von rund 140 KB. Kein Server, keine
 Installation, kein Build. Öffnen, Geländemodell hineinziehen, loslegen.
 
-**[→ Anwendung öffnen](https://mucnese.github.io/Quick-Site-Design/)**
+**[→ Anwendung öffnen](https://Mucnese.github.io/quick-site-design/)**
 
 ---
 
@@ -53,30 +53,26 @@ Installation, kein Build. Öffnen, Geländemodell hineinziehen, loslegen.
 
 ## Demo
 
-Im Ordner [`demo/`](demo/) liegt ein vollständiger Beispieldatensatz zum
-Ausprobieren, rund 8 MB als ZIP:
+**[→ Demo öffnen](https://Mucnese.github.io/quick-site-design/?demo=1)**
+
+Der Link lädt Gelände und Gebäude automatisch. Nach wenigen Sekunden steht ein
+Quadratkilometer echtes Gelände mit 612 Gebäuden bereit — Baustein aus der
+Leiste unten wählen und ins Gelände klicken.
+
+Der Datensatz:
 
 | Datei | Inhalt |
 |---|---|
-| `692_5336.tif` | DGM1, 1000 × 1000 Punkte, 1 m Raster, Höhen 503,1 bis 520,7 m |
-| `692_5336.gml` | LoD2-Gebäudemodell, CityGML 1.0, 2913 Gebäude |
+| `demo/demo_dgm.tif` | DGM1, 1000 × 1000 Punkte, 1 m Raster, Höhen 503,1 bis 520,7 m |
+| `demo/demo_lod2.gml` | LoD2-Gebäudemodell, 612 Gebäude, auf die Kachel zugeschnitten |
 
-Beide in ETRS89 / UTM Zone 32N (EPSG:25832), Südwestecke bei E 692000 /
-N 5336000, gelegen bei etwa 48,153 Nord und 11,588 Ost.
+ETRS89 / UTM Zone 32N (EPSG:25832), Südwestecke bei E 692000 / N 5336000,
+gelegen bei etwa 48,153 Nord und 11,588 Ost.
 
-**So geht es los:**
-
-1. ZIP herunterladen und entpacken
-2. `index.html` im Browser öffnen
-3. Unter **Daten → Gelände · GeoTIFF** die Datei `692_5336.tif` wählen
-4. Danach unter **Gebäude · CityGML** die Datei `692_5336.gml` wählen
-5. Einen Baustein aus der Leiste unten wählen und ins Gelände klicken
-
-Zwei Beobachtungen, die dabei normal sind: Das Einlesen der Gebäudedatei
-dauert je nach Rechner einige Sekunden, weil die unkomprimierte XML-Datei
-74 MB groß ist. Und die Gebäudedatei deckt ungefähr 2 × 2 km ab, also mehr
-als die Geländekachel — alles außerhalb wird beim Laden verworfen, es
-bleiben rund 16.000 Flächen übrig. Der Statushinweis nennt beide Zahlen.
+Wer lieber selbst lädt, findet unter
+[`demo/quick-site-design-demo.zip`](demo/quick-site-design-demo.zip) die
+ungekürzten Originaldateien (2913 Gebäude, 8 MB gepackt) zum Einlesen über die
+Dateifelder.
 
 Die Daten stammen aus amtlichen Geobasisdaten der deutschen Landesvermessung.
 Beim Weiterverwenden sind die Nutzungsbedingungen des herausgebenden
