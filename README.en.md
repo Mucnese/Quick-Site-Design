@@ -166,6 +166,8 @@ demo link should work too, the `demo/` folder has to sit next to it.
 
 ## Licence
 
+Copyright © 2026 Haoran Li
+
 GNU General Public License, version 3 or later. See [LICENSE](LICENSE).
 
 In short: you may use, distribute and modify the software. If you distribute a

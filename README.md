@@ -168,6 +168,8 @@ Ordner `demo/` danebenliegen.
 
 ## Lizenz
 
+Copyright © 2026 Haoran Li
+
 GNU General Public License, Version 3 oder später. Siehe [LICENSE](LICENSE).
 
 Das bedeutet in Kurzform: Du darfst die Software nutzen, weitergeben und
