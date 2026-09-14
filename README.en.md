@@ -14,8 +14,9 @@ visible: whether the radius reaches, whether two crane radii overlap, whether
 the office block fits the available area, and how the haul road sits in the
 terrain. It does not replace detailed design.
 
-Technically a single HTML file of roughly 150 KB. No server, no installation,
-no build step.
+Technically one HTML file of roughly 150 KB plus three libraries next to it. No
+server, no installation, no build step. Once opened, all data stays in the
+browser.
 
 **[→ Open the application](https://quick-site-design.com/)**
 
@@ -201,12 +202,20 @@ All three are compatible with the GPLv3 and live in the `lib/` folder. They are
 **not** loaded from a CDN, so opening the page creates no connections to third
 parties and the application also works offline.
 
-The files themselves are not part of the repository. How to obtain them is
-described in [`lib/LIESMICH.txt`](lib/LIESMICH.txt) — three downloads, two
-minutes.
+The library files themselves are not part of the repository; their sources are
+listed in [`lib/LIESMICH.txt`](lib/LIESMICH.txt) (German).
 
 For operation on a private web space, `index.html` together with the `lib/` and
-`demo/` folders in the web directory is sufficient.
+`demo/` folders in the web directory is sufficient. The `demo/` folder is only
+needed for the demo link.
+
+---
+
+## Legal
+
+[Impressum](impressum.html) · [Datenschutzerklärung](datenschutz.html)
+
+Both pages are in German, as required for a site operated from Germany.
 
 ---
 

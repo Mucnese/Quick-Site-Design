@@ -15,8 +15,9 @@ Kranradien überschneiden, ob die Containeranlage auf die verfügbare Fläche pa
 und wie die Baustraße im Gelände liegt. Eine Ausführungsplanung ersetzt das
 nicht.
 
-Technisch eine einzige HTML-Datei von rund 150 KB. Kein Server, keine
-Installation, kein Build.
+Technisch eine HTML-Datei von rund 150 KB und drei Bibliotheken daneben. Kein
+Server, keine Installation, kein Build. Nach dem Öffnen bleiben alle Daten im
+Browser.
 
 **[→ Anwendung öffnen](https://quick-site-design.com/)**
 
@@ -138,7 +139,7 @@ gemeinsam auswählen und werden beim Laden verschmolzen.
 teils unter abweichenden Lizenzen; dort unter „LoD2" oder „3D-Gebäudemodell"
 aufgeführt.
 
-**Lizenzpflicht.** Beide Lizenzen verlangen eine Quellenangabe. Den genauen
+**Lizenzpflicht.** Beide Lizenzen verlangen eine Quellenangabe. Der genaue
 Wortlaut steht in den Metadaten des jeweiligen Landes.
 
 ---
@@ -202,20 +203,18 @@ werden **nicht** von einem CDN nachgeladen: so entstehen beim Aufruf keine
 Verbindungen zu fremden Servern, und die Anwendung läuft auch ohne
 Internetverbindung.
 
-Die Dateien selbst sind nicht im Repository enthalten. Ihre Bezugsquellen stehen
-in [`lib/LIESMICH.txt`](lib/LIESMICH.txt) — drei Downloads, zwei Minuten.
+Die Bibliotheksdateien selbst sind nicht im Repository enthalten; ihre
+Bezugsquellen stehen in [`lib/LIESMICH.txt`](lib/LIESMICH.txt).
 
 Für den Betrieb auf eigenem Webspace genügt `index.html` mitsamt den Ordnern
-`lib/` und `demo/` im Web-Verzeichnis.
+`lib/` und `demo/` im Web-Verzeichnis. Der Ordner `demo/` wird nur für den
+Demo-Link gebraucht.
 
 ---
 
 ## Rechtliches
 
 [Impressum](impressum.html) · [Datenschutzerklärung](datenschutz.html)
-
-Beide Seiten enthalten Platzhalter für Anschrift und E-Mail, die vor dem
-Veröffentlichen ausgefüllt werden müssen.
 
 ---
 
