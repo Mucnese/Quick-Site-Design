@@ -4,24 +4,21 @@
 
 *[English version](README.en.md)*
 
-**Baustelleneinrichtung planen, solange die Idee noch frisch ist.**
-
-Quick-Site-Design ist ein Werkzeug für die frühe Phase der Baustelleneinrichtung.
-Statt Maße zu schätzen oder mit Symbolen auf einem Lageplan zu schieben, lädst du
-das amtliche Geländemodell deines Bauplatzes und stellst darauf, was wirklich
+Werkzeug für die frühe Phase der Baustelleneinrichtung. Das amtliche
+Geländemodell des Bauplatzes wird geladen und darauf gestellt, was wirklich
 draufsteht: Container, Turmdrehkrane, Mobilkrane, Baustraßen. Alles maßstäblich,
 alles auf echter Höhenlage.
 
-Der Nutzen liegt im Tempo. Eine Kranaufstellung ist in zwei Minuten gesetzt und in
-weiteren zwei umgestellt. Du siehst sofort, ob die Ausladung reicht, ob sich zwei
+Eine Kranaufstellung ist in zwei Minuten gesetzt und in weiteren zwei
+umgestellt. Auf einen Blick sichtbar: ob die Ausladung reicht, ob sich zwei
 Kranradien überschneiden, ob die Containeranlage auf die verfügbare Fläche passt
-und wie die Baustraße im Gelände liegt. Das ersetzt keine Ausführungsplanung –
-aber es erspart die Runden, in denen man sie sonst dreimal verwirft.
+und wie die Baustraße im Gelände liegt. Eine Ausführungsplanung ersetzt das
+nicht.
 
-Technisch ist es eine einzige HTML-Datei von rund 140 KB. Kein Server, keine
-Installation, kein Build. Öffnen, Geländemodell hineinziehen, loslegen.
+Technisch eine einzige HTML-Datei von rund 150 KB. Kein Server, keine
+Installation, kein Build.
 
-**[→ Anwendung öffnen](https://Mucnese.github.io/quick-site-design/)**
+**[→ Anwendung öffnen](https://quick-site-design.com/)**
 
 ---
 
@@ -61,7 +58,7 @@ Installation, kein Build. Öffnen, Geländemodell hineinziehen, loslegen.
 
 ## Demo
 
-**[→ Demo öffnen](https://Mucnese.github.io/quick-site-design/?demo=1)**
+**[→ Demo öffnen](https://quick-site-design.com/?demo=1)**
 
 Der Link lädt Gelände und Gebäude automatisch. Nach wenigen Sekunden steht ein
 Quadratkilometer echtes Gelände mit 612 Gebäuden bereit — Baustein aus der
@@ -77,12 +74,14 @@ Der Datensatz:
 ETRS89 / UTM Zone 32N (EPSG:25832), Südwestecke bei E 692000 / N 5336000,
 gelegen bei etwa 48,153 Nord und 11,588 Ost.
 
-Eigene Daten lädst du über die beiden Dateifelder unter **Daten** — erst das
-Geländemodell, dann die Gebäude.
+Eigene Daten kommen über die beiden Dateifelder unter **Daten** hinein: zuerst
+das Geländemodell, dann die Gebäude.
 
-Die Daten stammen aus amtlichen Geobasisdaten der deutschen Landesvermessung.
-Beim Weiterverwenden sind die Nutzungsbedingungen des herausgebenden
-Landesamtes zu beachten.
+Die Beispieldaten stammen von der Bayerischen Vermessungsverwaltung
+([geodaten.bayern.de](https://geodaten.bayern.de/opengeodata/OpenDataDetail.html?pn=dgm1)),
+veröffentlicht unter [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.de).
+Die Namensnennung wird in der Anwendung angezeigt, solange die Beispieldaten
+geladen sind.
 
 ---
 
@@ -136,10 +135,11 @@ werden, etwa mit GDAL.
 gemeinsam auswählen und werden beim Laden verschmolzen.
 
 **Gebäudemodelle.** Die LoD2-Daten liegen überwiegend in denselben Portalen,
-teils unter abweichenden Lizenzen. Such dort nach „LoD2" oder „3D-Gebäudemodell".
+teils unter abweichenden Lizenzen; dort unter „LoD2" oder „3D-Gebäudemodell"
+aufgeführt.
 
 **Lizenzpflicht.** Beide Lizenzen verlangen eine Quellenangabe. Den genauen
-Wortlaut findest du in den Metadaten des jeweiligen Landes.
+Wortlaut steht in den Metadaten des jeweiligen Landes.
 
 ---
 
@@ -147,27 +147,26 @@ Wortlaut findest du in den Metadaten des jeweiligen Landes.
 
 ```
 quick-site-design/
-├── index.html            die Anwendung, eigenständig
+├── index.html            die Anwendung, aus src/ gebaut
+├── impressum.html
+├── datenschutz.html
 ├── README.md
 ├── README.en.md
 ├── PROJEKT.md            Entwicklernotizen
 ├── LICENSE
 ├── build.py
 ├── .gitignore
-├── impressum.html
-├── datenschutz.html
-├── lib/                  three.js, OrbitControls, geotiff.js
-├── docs/
-│   └── header.png        Titelbild für das README
-├── impressum.html
-├── datenschutz.html
 ├── lib/
 │   ├── three.min.js      Bibliotheken, lokal statt vom CDN
 │   ├── OrbitControls.js
-│   └── geotiff.js
+│   ├── geotiff.js
+│   └── LIESMICH.txt      welche Datei woher kommt
 ├── demo/
 │   ├── demo_dgm.tif      Geländemodell für den Demo-Link
-│   └── demo_lod2.gml     Gebäudemodell für den Demo-Link
+│   ├── demo_lod2.gml     Gebäudemodell für den Demo-Link
+│   └── LIESMICH.txt      Quelle und Lizenz der Beispieldaten
+├── docs/
+│   └── header.png        Titelbild für das README
 ├── src/
 │   ├── shell_head.html
 │   ├── app.js
@@ -190,8 +189,7 @@ Browser. Einzelheiten stehen in `PROJEKT.md`.
 
 ## Selbst betreiben
 
-Die Datei `index.html` ist eigenständig. Drei Bibliotheken werden zur Laufzeit
-von einem CDN geladen:
+Die Anwendung braucht drei Bibliotheken:
 
 | Bibliothek | Lizenz |
 |---|---|
@@ -204,11 +202,11 @@ werden **nicht** von einem CDN nachgeladen: so entstehen beim Aufruf keine
 Verbindungen zu fremden Servern, und die Anwendung läuft auch ohne
 Internetverbindung.
 
-Die Dateien selbst sind nicht im Repository enthalten. Wie du sie besorgst,
-steht in [`lib/LIESMICH.txt`](lib/LIESMICH.txt) — drei Downloads, zwei Minuten.
+Die Dateien selbst sind nicht im Repository enthalten. Ihre Bezugsquellen stehen
+in [`lib/LIESMICH.txt`](lib/LIESMICH.txt) — drei Downloads, zwei Minuten.
 
-Zum Betrieb auf eigenem Webspace legst du `index.html` mitsamt den Ordnern
-`lib/` und `demo/` ins Web-Verzeichnis.
+Für den Betrieb auf eigenem Webspace genügt `index.html` mitsamt den Ordnern
+`lib/` und `demo/` im Web-Verzeichnis.
 
 ---
 
@@ -227,8 +225,8 @@ Copyright © 2026 Haoran Li
 
 GNU General Public License, Version 3 oder später. Siehe [LICENSE](LICENSE).
 
-Das bedeutet in Kurzform: Du darfst die Software nutzen, weitergeben und
-verändern. Gibst du eine veränderte Fassung weiter, muss auch diese unter der
-GPLv3 stehen und der Quelltext offenliegen.
+In Kurzform: Die Software darf genutzt, weitergegeben und verändert werden.
+Wird eine veränderte Fassung weitergegeben, muss auch diese unter der GPLv3
+stehen und der Quelltext offenliegen.
 
 Die Software wird ohne jede Gewährleistung bereitgestellt.

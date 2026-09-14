@@ -4,24 +4,20 @@
 
 *[Deutsche Fassung](README.md)*
 
-**Plan your site layout while the idea is still fresh.**
+A tool for the early stage of construction site layout. The official terrain
+model of the site is loaded and populated with what actually goes on it: site
+offices, tower cranes, mobile cranes, haul roads. Everything to scale,
+everything on real elevations.
 
-Quick-Site-Design is a tool for the early stage of construction site layout.
-Instead of estimating dimensions or pushing symbols around a site plan, you load
-the official terrain model of your site and place what actually goes on it: site
-offices, tower cranes, mobile cranes, haul roads. Everything to scale, everything
-on real elevations.
+A crane position is set in two minutes and moved in two more. Immediately
+visible: whether the radius reaches, whether two crane radii overlap, whether
+the office block fits the available area, and how the haul road sits in the
+terrain. It does not replace detailed design.
 
-The value is in the speed. A crane position is set in two minutes and moved in
-two more. You see immediately whether the radius reaches, whether two crane radii
-overlap, whether the office block fits the available area, and how the haul road
-sits in the terrain. It does not replace detailed design — but it saves the
-rounds in which that design would otherwise be discarded three times over.
+Technically a single HTML file of roughly 150 KB. No server, no installation,
+no build step.
 
-Technically it is a single HTML file of roughly 140 KB. No server, no
-installation, no build step. Open it, drop in a terrain model, get going.
-
-**[→ Open the application](https://Mucnese.github.io/quick-site-design/)**
+**[→ Open the application](https://quick-site-design.com/)**
 
 ---
 
@@ -60,10 +56,10 @@ installation, no build step. Open it, drop in a terrain model, get going.
 
 ## Demo
 
-**[→ Open the demo](https://Mucnese.github.io/quick-site-design/?demo=1)**
+**[→ Open the demo](https://quick-site-design.com/?demo=1)**
 
-The link loads terrain and buildings automatically. After a few seconds you have
-a square kilometre of real terrain with 612 buildings — pick an element from the
+The link loads terrain and buildings automatically. After a few seconds a square
+kilometre of real terrain with 612 buildings is ready — pick an element from the
 bar at the bottom and click on the terrain.
 
 The data set:
@@ -76,11 +72,14 @@ The data set:
 ETRS89 / UTM zone 32N (EPSG:25832), south-west corner at E 692000 / N 5336000,
 located at roughly 48.153 North and 11.588 East.
 
-Load your own data through the two file inputs under **Data** — terrain first,
-then buildings.
+Own data goes in through the two file inputs under **Data**: terrain first, then
+buildings.
 
-The data originates from official German surveying data. When reusing it,
-observe the terms of the issuing state authority.
+The sample data originates from the Bavarian surveying authority
+([geodaten.bayern.de](https://geodaten.bayern.de/opengeodata/OpenDataDetail.html?pn=dgm1)),
+published under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+The attribution is displayed inside the application for as long as the sample
+data is loaded.
 
 ---
 
@@ -134,7 +133,7 @@ for example with GDAL.
 together and are merged on load.
 
 **Building models.** LOD2 data mostly sits in the same portals, occasionally
-under different licences. Search there for "LoD2" or "3D-Gebäudemodell".
+under different licences; listed there as "LoD2" or "3D-Gebäudemodell".
 
 **Attribution.** Both licences require a source statement. The exact wording is
 in the metadata of the respective state.
@@ -148,18 +147,26 @@ coordinate system and the CityGML uses the same one.
 
 ```
 quick-site-design/
-├── index.html            the application, self-contained
+├── index.html            the application, built from src/
+├── impressum.html        legal notice (German)
+├── datenschutz.html      privacy policy (German)
 ├── README.md             German
 ├── README.en.md
 ├── PROJEKT.md            developer notes (German)
 ├── LICENSE
 ├── build.py
 ├── .gitignore
-├── docs/
-│   └── header.png        header image for the README
+├── lib/
+│   ├── three.min.js      libraries, local instead of CDN
+│   ├── OrbitControls.js
+│   ├── geotiff.js
+│   └── LIESMICH.txt      which file comes from where
 ├── demo/
 │   ├── demo_dgm.tif      terrain model for the demo link
-│   └── demo_lod2.gml     building model for the demo link
+│   ├── demo_lod2.gml     building model for the demo link
+│   └── LIESMICH.txt      source and licence of the sample data
+├── docs/
+│   └── header.png        header image for the README
 ├── src/
 │   ├── shell_head.html
 │   ├── app.js
@@ -182,7 +189,7 @@ Details are in `PROJEKT.md` (German).
 
 ## Running it yourself
 
-`index.html` is self-contained. Three libraries are loaded from a CDN at runtime:
+The application requires three libraries:
 
 | Library | Licence |
 |---|---|
@@ -190,12 +197,16 @@ Details are in `PROJEKT.md` (German).
 | OrbitControls (three.js examples) | MIT |
 | geotiff.js 2.1.3 | MIT |
 
-All three are compatible with the GPLv3. Without an internet connection the
-application will not start; for offline use the libraries have to be shipped
-alongside and referenced locally.
+All three are compatible with the GPLv3 and live in the `lib/` folder. They are
+**not** loaded from a CDN, so opening the page creates no connections to third
+parties and the application also works offline.
 
-To run it on your own web space, put `index.html` in the web directory. If the
-demo link should work too, the `demo/` folder has to sit next to it.
+The files themselves are not part of the repository. How to obtain them is
+described in [`lib/LIESMICH.txt`](lib/LIESMICH.txt) — three downloads, two
+minutes.
+
+For operation on a private web space, `index.html` together with the `lib/` and
+`demo/` folders in the web directory is sufficient.
 
 ---
 
@@ -205,8 +216,7 @@ Copyright © 2026 Haoran Li
 
 GNU General Public License, version 3 or later. See [LICENSE](LICENSE).
 
-In short: you may use, distribute and modify the software. If you distribute a
-modified version, that version must also be under the GPLv3 and its source must
-be available.
+In short: the software may be used, distributed and modified. A distributed
+modified version must also be under the GPLv3, with its source available.
 
 The software is provided without any warranty.
